@@ -12,22 +12,22 @@ then
 	echo "Deployment $deploymentname not found in $compname"
 	exit
 else 
-echo "Starting OCI GG Deployment $deploymentname"
+	echo "Starting OCI GG Deployment $deploymentname"
 fi
 
 export WorkReqOCID=`oci goldengate deployment start --deployment-id $Deploymentocid |jq -r '."opc-work-request-id"'`
 
 while true
 do 
-export status=`oci goldengate work-request get --work-request-id $WorkReqOCID|jq -r ".data.status"`
-echo "OCI GoldenGate startup request for $deploymentname is -- $status"
-if [ $status == "SUCCEEDED" ]
-then	
-	break
-else
+	export status=`oci goldengate work-request get --work-request-id $WorkReqOCID|jq -r ".data.status"`
+	echo "OCI GoldenGate startup request for $deploymentname is -- $status"
+	if [ $status == "SUCCEEDED" ]
+	then	
+		break
+	else
+		sleep 20
+	fi
+	echo "Sleeping for 20 seconds"
+	echo "Ctrl-C to exit"
 	sleep 20
-fi
-echo "Sleeping for 20 seconds"
-echo "Ctrl-C to exit"
-sleep 20
 done 
