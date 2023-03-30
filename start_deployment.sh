@@ -1,7 +1,7 @@
 if [ -z "$1" ]
 then
-    echo "Usage - start_deployment <INSERT_COMPARTMENT_NAME>"
-    echo "Usage - start_deployment <INSERT_COMPARTMENT_NAME> <INSERT_Deployment_NAME>"
+    echo "Usage - start_deployment.sh <INSERT_COMPARTMENT_NAME>"
+    echo "Usage - start_deployment.sh <INSERT_COMPARTMENT_NAME> <INSERT_Deployment_NAME>"
     exit;
 fi
 
