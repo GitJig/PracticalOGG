@@ -6,14 +6,13 @@ oci goldengate deployment list --compartment-id $Compocid --all --query 'data.it
 
 echo "Enter Deployment Name to Start"
 read deploymentname
-echo "Starting OCI GG Deployment $deploymentname"
 export Deploymentocid=`oci goldengate deployment list --compartment-id $Compocid --all --query "data.items[?contains(\"display-name\",'$deploymentname')].id"|jq -r '.[]'`
 if [ -z "$Deploymentocid" ]
 then
 	echo "Deployment $deploymentname not found in $compname"
 	exit
 else 
-echo $Deploymentocid
+echo "Starting OCI GG Deployment $deploymentname"
 fi
 
 export WorkReqOCID=`oci goldengate deployment start --deployment-id $Deploymentocid |jq -r '."opc-work-request-id"'`
@@ -22,9 +21,9 @@ while true
 do 
 export status=`oci goldengate work-request get --work-request-id $WorkReqOCID|jq -r ".data.status"`
 echo "OCI GoldenGate startup request for $deploymentname is -- $status"
-if [ $status=="SUCCEEDED" ]
+if [ $status == "SUCCEEDED" ]
 then	
-	exit
+	break
 else
 	sleep 20
 fi
