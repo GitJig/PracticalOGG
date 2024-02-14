@@ -14,9 +14,12 @@ print (ifilename)
 
 cyto.load_extra_layouts()
 app = Dash(__name__)
-server = app.server
+#server = app.server
+colors = {
+    'background': '#C5C0BF',
+    'text': '#7FDBFF'
+}
 
-    
 with open(ifilename) as jsonFile:
      data = json.load(jsonFile)
 
@@ -27,7 +30,6 @@ ProcessType = ''
 nonterminal_nodeslist = ["Deployment"]
 nonterminal_processlist = ["Deployment"]
 terminal_nodesiconlist = ["\ggicon.png"]
-edgelist =[]
 edgesourcelist =[]
 edgetargetlist =[]
 
@@ -84,6 +86,7 @@ while Nodenum < numtrees:
             edgesourcelist.append(TrailName)
             edgetargetlist.append(Replicats[NumRep])
             NumRep += 1
+
 # zip will merge 2 diff lists i.e. processlist and nodelist
 
 # nonterminal_nodes = [
@@ -142,7 +145,8 @@ stylesheetset = [
             'background-fit': 'cover',
             'content': 'data(label)',
             'background-image': 'data(url)',
-            'font-size': '300px'
+            'font-size': '200px',
+            'font-family': "Arial"
         }
     },
     {
@@ -158,14 +162,17 @@ styles = {
     'output': {
         'overflow-y': 'scroll',
         'overflow-wrap': 'break-word',
-        'height': 'calc(100% - 5px)',
-        'border': 'thin black solid'
+        'height': 'calc(30% - 5px)',
+        'border': 'black solid',
+        'float':'bottom',
+        'font-family': "Arial"
     },
-    'tab': {'height': 'calc(18vh - 110px)'}
+    'tab': {'height': 'calc(20vh - 11px)'}
 }
 
 app.layout = html.Div([
-    html.Div('Oracle GoldenGate Topology viewer v0.1'),
+    html.H1(children='OCI GoldenGate Topology viewer v0.1', style={
+        'textAlign': 'center','font-family':'Arial'}),
     html.Div(className='eight columns', children=[
         cyto.Cytoscape( 
             id='cytoscape-image-export',
@@ -174,8 +181,10 @@ app.layout = html.Div([
             layout={'name': 'breadthfirst', 'roots': ['Deployment']},
             style={
                     'width': '100%', 
-                    'height': '1000px',
-                    'float': 'left'
+                    'height': '750px',
+                    'float': 'left',
+                    'backgroundColor': colors['background'],
+                    'font-family': "Arial"
                    },
             stylesheet=stylesheetset
         )
@@ -185,25 +194,10 @@ app.layout = html.Div([
         dcc.Tabs(id='tabs-image-export', children=[
             dcc.Tab(label='Save Chart', value='jpg') 
         ]),
-        html.Div(style=styles['tab'], children=[
-            html.Div(
-                id='image-text',
-                children='Topology diagram',
-                style=styles['output']
-            )
-        ]),
         html.Div('Download OGG Topology Diagram:'),
-        html.Button("as jpg", id="btn-get-jpg"),
+        html.Button("Save as jpg", id="btn-get-jpg"),
     ])
 ])
-
-
-@callback(
-    Output('image-text', 'children'),
-    Input('cytoscape-image-export', 'imageData'),
-    )
-def put_image_string(data):
-    return data
 
 
 @callback(
