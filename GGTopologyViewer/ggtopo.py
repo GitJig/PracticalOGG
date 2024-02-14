@@ -12,22 +12,6 @@ import os
 ifilename = input('Enter a file name: ')
 print (ifilename)
 
-# def parse_report_file(self, ifilename):
-#     """ Checks if input report file is of type json or xml """
-#     parsed_report_file = None
-#     try:
-#         parsed_report_file = self._parse_json_file(ifilename)
-#         self.is_json_report_file = True
-#     except Exception as e:
-#         print("error parsing file " + self.ifilename)
-#         print("ensure file is valid OCI GG JSON file")
-#         exit(1)
-
-#     return parsed_report_file
-
-# pf = parse_report_file()
-# pf.parse_report_file(ifilename)
-
 cyto.load_extra_layouts()
 app = Dash(__name__)
 server = app.server
@@ -85,10 +69,7 @@ while Nodenum < numtrees:
     
     if Replicats is None :
         Replicats = "NoReplicat"
-        # ProcessType="Replicat"
-        # nonterminal_nodeslist.append(Replicats) 
-        # nonterminal_processlist.append(ProcessType)
-        # terminal_nodesiconlist.append('\MissingReplicat.png')        
+   
     else:
 
         # Replicats can be > 1, so loop thru the number of replicats
@@ -143,12 +124,6 @@ terminal_nodes = [
 
 proccount=0
 
-# print("terminal_nodes")
-# print(terminal_nodes)
-# print("nonterminal_nodes")
-# print(nonterminal_nodes)
-print("edges")
-print(edges)
 # Creating styles
 stylesheetset = [
     {
