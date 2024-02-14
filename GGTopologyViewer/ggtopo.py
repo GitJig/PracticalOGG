@@ -194,8 +194,10 @@ app.layout = html.Div([
         dcc.Tabs(id='tabs-image-export', children=[
             dcc.Tab(label='Save Chart', value='jpg') 
         ]),
-        html.Div('Download OGG Topology Diagram:'),
-        html.Button("Save as jpg", id="btn-get-jpg"),
+        html.Div(children='Download OGG Topology Diagram:', style={
+        'textAlign': 'Left','font-family':'Arial'}),
+        html.Button("Save as jpg", id="btn-get-jpg",style={
+        'textAlign': 'Left','font-family':'Arial'}),
     ])
 ])
 
@@ -208,7 +210,7 @@ app.layout = html.Div([
     ])
 def get_image(tab, get_jpg_clicks):
 
-    # File type to output of 'svg, 'png', 'jpg', or 'jpeg' (alias of 'jpg')
+    # File type to output of 'jpg', or 'jpeg' (alias of 'jpg')
     ftype = "jpg"
 
     # 'store': Stores the image data in 'imageData' !only jpg/png are supported
