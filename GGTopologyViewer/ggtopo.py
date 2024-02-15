@@ -16,8 +16,8 @@ cyto.load_extra_layouts()
 app = Dash(__name__)
 #server = app.server
 colors = {
-    'background': '#C5C0BF',
-    'text': '#7FDBFF'
+    'background': '#00FFFF',
+    'text': '#000000'
 }
 
 with open(ifilename) as jsonFile:
@@ -146,13 +146,14 @@ stylesheetset = [
             'content': 'data(label)',
             'background-image': 'data(url)',
             'font-size': '200px',
+            'shape':'oval',
             'font-family': "Arial"
         }
     },
     {
         'selector': '.nonterminal',
         'style': {
-            'shape': 'rectangle',
+            'shape': 'square',
     
         }
     }
@@ -167,7 +168,7 @@ styles = {
         'float':'bottom',
         'font-family': "Arial"
     },
-    'tab': {'height': 'calc(20vh - 11px)'}
+    'tab': {'height': 'calc(15vh - 9px)'}
 }
 
 app.layout = html.Div([
@@ -181,7 +182,7 @@ app.layout = html.Div([
             layout={'name': 'breadthfirst', 'roots': ['Deployment']},
             style={
                     'width': '100%', 
-                    'height': '750px',
+                    'height': '700px',
                     'float': 'left',
                     'backgroundColor': colors['background'],
                     'font-family': "Arial"
@@ -190,7 +191,7 @@ app.layout = html.Div([
         )
     ]),
 
-    html.Div(className='four columns', children=[
+    html.Div(className='six columns', children=[
         dcc.Tabs(id='tabs-image-export', children=[
             dcc.Tab(label='Save Chart', value='jpg') 
         ]),
