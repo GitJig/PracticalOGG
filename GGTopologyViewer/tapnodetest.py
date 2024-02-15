@@ -1,7 +1,7 @@
 '''
 Based on example in https://dash.plotly.com/cytoscape/styling
 '''
-from dash import Dash, dcc, html, Input, Output, ctx, callback,State
+from dash import Dash, dcc, html, Input, Output, ctx, callback, State
 import dash_cytoscape as cyto
 import json
 import numpy as np
@@ -9,64 +9,57 @@ import base64
 import io
 import os
 ifilename = input('Enter a file name: ')
-print (ifilename)
+print(ifilename)
 firstDeploymentName = "JDOracleGGTest"
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
-#server = app.server
-colors = {
-    'background': '#A5A69C',
-    'text': '#4A4F59'
-}
 
 with open(ifilename) as jsonFile:
-     data = json.load(jsonFile)
+    data = json.load(jsonFile)
 
-#Number of Extract/trail/replicat pairs
-numtrees=len(data["data"]["items"])
-Nodenum=0
+# Number of Extract/trail/replicat pairs
+numtrees = len(data["data"]["items"])
+Nodenum = 0
 ProcessType = ''
 nonterminal_nodeslist = ["Deployment"]
 nonterminal_processlist = ["Deployment"]
 terminal_nodesiconlist = ["\ggicon.png"]
-edgesourcelist =[]
-edgetargetlist =[]
+edgesourcelist = []
+edgetargetlist = []
 infolist = ["First Deployment is " + firstDeploymentName]
-
-while Nodenum < numtrees: 
-    
+while Nodenum < numtrees:
     # Populate Variables Extract, TrailName and Replicats for each pair
-
     Extract = data["data"]["items"][Nodenum]["producer"]
     TrailName = data["data"]["items"][Nodenum]["trail-file-id"]
     TrailNum = data["data"]["items"][Nodenum]["number-of-sequences"]
     TrailSize = round(data["data"]["items"][Nodenum]["size-in-bytes"]/1024,2)
-    Replicats = data["data"]["items"][Nodenum]["consumers"]
-    Nodenum += 1  
-   # Populate non-terminal Nodes for Extract, TrailName and Replicats for each pair
+    Replicats = data["data"]["items"][Nodenum]["consumers"]  
+    Nodenum += 1
     
-    if Extract is None :
-        Extract = "NoExtract OR  Remote Trail"
-        ProcessType="Extract"
+   # Populate non-terminal Nodes for Extract, TrailName and Replicats for each pair
+
+    if Extract is None:
+        Extract = "NoExtract"
+        ProcessType = "Extract"
         nonterminal_nodeslist.append(Extract)
         nonterminal_processlist.append(ProcessType)
         terminal_nodesiconlist.append('\MissingExtract.png')
         edgesourcelist.append("Deployment")
         edgetargetlist.append(Extract)
-        infolist.append(Extract)
-         
-    else: 
+        infolist.append("NoExtract")
+        
+    else:
         nonterminal_nodeslist.append(Extract)
-        ProcessType="Extract" 
+        ProcessType = "Extract"
         nonterminal_processlist.append(ProcessType)
         terminal_nodesiconlist.append("\Extract.png")
         edgesourcelist.append("Deployment")
         edgetargetlist.append(Extract)
         infolist.append("Extract is " + Extract)
-        
-    ProcessType="Trail"
-    
+
+    ProcessType = "Trail"
+
     nonterminal_nodeslist.append((TrailName))
     nonterminal_processlist.append(ProcessType)
     terminal_nodesiconlist.append("\Trail.png")
@@ -74,49 +67,57 @@ while Nodenum < numtrees:
     edgetargetlist.append(TrailName)
     infolist.append(TrailName + " has " + str(TrailNum) + " trail files \nTotal Size is " + str(TrailSize)+"KB" )
     
-    if Replicats is None :
+    if Replicats is None:
         Replicats = "NoReplicat"
-   
+
     else:
 
         # Replicats can be > 1, so loop thru the number of replicats
 
-        NumRep=0
-        
+        NumRep = 0
+
         while NumRep < len(Replicats):
-            ProcessType="Replicat"
-            nonterminal_nodeslist.append(Replicats[NumRep])          
+            ProcessType = "Replicat"
+            nonterminal_nodeslist.append(Replicats[NumRep])
             nonterminal_processlist.append(ProcessType)
             terminal_nodesiconlist.append("\Replicat.png")
             edgesourcelist.append(TrailName)
             edgetargetlist.append(Replicats[NumRep])
             infolist.append("Replicat is " + Replicats[NumRep])
             NumRep += 1
-
-# zip will merge 2 diff lists i.e. processlist and nodelist
-
-edges = [
-    {
-         'data': {
-            'source': source, 
-            'target': target
-            }
-    }
-     for source, target in zip(edgesourcelist,edgetargetlist)
-    ]
+            
 
 # Creating elements
 
+edges = [
+    {
+        'data': {
+            'source': source,
+            'target': target
+        }
+    }
+    for source, target in zip(edgesourcelist, edgetargetlist)
+]
+
+print (edges)
+
+sizelist = []
+nodesize = 5
+while nodesize < 400:
+    sizelist.append(nodesize)
+    nodesize +=10
+    
 terminal_nodes = [
     {
         'classes': 'terminal',
         'data': {
             'id': name,
             'label': name,
-            'url': "static"+url
+            'url': "static"+url,
+            'size': nodesize
         }
     }
-    for name, url in zip(nonterminal_nodeslist,terminal_nodesiconlist)
+    for name, url,nodesize  in zip(nonterminal_nodeslist, terminal_nodesiconlist,sizelist)
 ]
 
 # Creating styles
@@ -126,9 +127,6 @@ stylesheetset = [
         'style': {
             'content': 'data(process)',
             'label': 'data(process)',
-            'shape': 'oval',
-            'color':'#4A4F59',
-            'font-family': "Arial"
         }
     },
     {
@@ -141,8 +139,7 @@ stylesheetset = [
             'content': 'data(label)',
             'background-image': 'data(url)',
             'font-size': '200px',
-            'shape':'oval',
-            'color':'#4A4F59',
+            'shape': 'oval',
             'font-family': "Arial"
         }
     },
@@ -150,71 +147,49 @@ stylesheetset = [
         'selector': '.nonterminal',
         'style': {
             'shape': 'square',
-    
+
         }
-    },
-      {  'selector': 'edge',
-                'style': {
-                     'line-color': 'black',
-                     
-                }
-      }
+    }
 ]
 
 styles = {
-    'output': {
-        'overflow-y': 'scroll',
-        'overflow-wrap': 'break-word',
-        'height': 'calc(30% - 5px)',
-        'border': 'black solid',
-        'float':'bottom',
-        'font-family': "Arial"
-    },
-    'tab': {'height': 'calc(15vh - 9px)'},
-           'pre': {
+        'pre': {
         'border': 'thin lightgrey solid',
         'overflowX': 'auto'
     },
         'standardstyle': {
         'textAlign': 'center',
         'font-family': 'Arial'
-    },
-        'pre': {
-        'border': 'thin lightgrey solid',
-        'overflowX': 'auto'
-    },
+    }
 }
-
+print (terminal_nodes)
 app.layout = html.Div([
-    html.H1(children='OCI GoldenGate Topology viewer v0.1', style={
-        'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-    html.Div(className='six columns', children=[
-        cyto.Cytoscape( 
+    html.H1(children='OCI GoldenGate Topology viewer v0.1', style=styles['standardstyle']),
+    html.Div(className='nine columns', children=[
+        cyto.Cytoscape(
             id='cytoscape-image-export',
-            #elements=terminal_nodes + nonterminal_nodes + edges,
-            elements=terminal_nodes +edges,
-            layout={'name': 'breadthfirst', 'roots': ['Deployment'],'animate': True},
+            # elements=terminal_nodes + nonterminal_nodes + edges,
+            elements=terminal_nodes + edges,
+            layout={'name': 'breadthfirst', 'roots': ['Deployment'], 'animate': True},
             style={
-                    'width': '100%', 
-                    'height': '750px',
-                    'float': 'left',
-                    'backgroundColor': colors['background'],
-                    'font-family': "Arial",
-                    'color': colors['text'],
-                   },
+                'width': '100%',
+                'height': '450px',
+                'float': 'left',
+                'backgroundColor': '#82E0AA',
+                'font-family': "Arial"
+            },
             stylesheet=stylesheetset
         )
     ]),
     html.Pre(id='cytoscape-tapNodeData-json', style=styles['pre']),
     html.Div(className='one column', children=[
         dcc.Tabs(id='tabs-image-export', children=[
-            dcc.Tab(label='', value='jpg') 
-        ],style={'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-        html.Div(children='Download OGG Topology Diagram:', style={
-        'textAlign': 'left','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-        html.Button("Save as jpg", id="btn-get-jpg",style={
-        'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-    ])
+            dcc.Tab(label='', value='jpg')
+        ]),
+    html.Div(children='Download OGG Topology Diagram:', style=styles['standardstyle']),
+    html.Button("Save as jpg", id="btn-get-jpg", style=styles['standardstyle']),
+    ]),
+
 ])
 
 @callback(Output('cytoscape-tapNodeData-json', 'children'),Input('cytoscape-image-export', 'tapNodeData'))
@@ -225,7 +200,7 @@ def displayTapNodeData(data):
         for attr in filter_object:
             filterattr = attr
         return (filterattr)
-    
+        
 @callback(
     Output("cytoscape-image-export", "generateImage"),
     [
@@ -237,6 +212,9 @@ def get_image(tab, get_jpg_clicks):
     # File type to output of 'jpg', or 'jpeg' (alias of 'jpg')
     ftype = "jpg"
 
+    # 'store': Stores the image data in 'imageData' !only jpg/png are supported
+    # 'download'`: Downloads the image as a file with all data handling
+    # 'both'`: Stores image data and downloads image as file.
     action = 'store'
 
     if ctx.triggered:
@@ -247,7 +225,7 @@ def get_image(tab, get_jpg_clicks):
     return {
         'type': ftype,
         'action': action
-        }
-    
+    }
+
 if __name__ == '__main__':
-   app.run(debug=True,port=7079)
+    app.run(debug=True, port=7079)
