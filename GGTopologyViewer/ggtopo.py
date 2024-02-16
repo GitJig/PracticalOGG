@@ -16,8 +16,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 #server = app.server
 colors = {
-    'background': '#A5A69C',
-    'text': '#4A4F59'
+    'background': '#0D0D0D',
+    'text': '#A6A6A6'
 }
 
 with open(ifilename) as jsonFile:
@@ -127,7 +127,7 @@ stylesheetset = [
             'content': 'data(process)',
             'label': 'data(process)',
             'shape': 'oval',
-            'color':'#4A4F59',
+            'color':'#A6A6A6',
             'font-family': "Arial"
         }
     },
@@ -142,7 +142,7 @@ stylesheetset = [
             'background-image': 'data(url)',
             'font-size': '200px',
             'shape':'oval',
-            'color':'#4A4F59',
+            'color':'#A6A6A6',
             'font-family': "Arial"
         }
     },
@@ -155,11 +155,31 @@ stylesheetset = [
     },
       {  'selector': 'edge',
                 'style': {
-                     'line-color': 'black',
+                     'line-color': '#A6A6A6',
                      
                 }
-      }
+      },
+      {
+    'selector': 'label',             # as if selecting 'node' :/
+    'style': {
+        'content': 'data(label)',    # not to loose label content
+        'color': '#A6A6A6',
+        'background-color': '#A6A6A6'   # applies to node which will remain pink if selected :/
+    }
+    },
+      
 ]
+tab_height = '15vh'
+tab_selected_style = {
+    'borderTop': '1px solid #d6d6d6',
+    'borderBottom': '1px solid #d6d6d6',
+    'backgroundColor': '#4A4F59',
+    'color': '#A6A6A6',
+    'padding': '16px',
+    'width':'550%',
+    'line-width': tab_height
+}
+
 
 styles = {
     'output': {
@@ -175,10 +195,6 @@ styles = {
         'border': 'thin lightgrey solid',
         'overflowX': 'auto'
     },
-        'standardstyle': {
-        'textAlign': 'center',
-        'font-family': 'Arial'
-    },
         'pre': {
         'border': 'thin lightgrey solid',
         'overflowX': 'auto'
@@ -186,9 +202,9 @@ styles = {
 }
 
 app.layout = html.Div([
-    html.H1(children='OCI GoldenGate Topology viewer v0.1', style={
+    html.H1(children='OCI GoldenGate Topology viewer v0.2', style={
         'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-    html.Div(className='six columns', children=[
+    html.Div(className='nine columns', children=[
         cyto.Cytoscape( 
             id='cytoscape-image-export',
             #elements=terminal_nodes + nonterminal_nodes + edges,
@@ -208,12 +224,11 @@ app.layout = html.Div([
     html.Pre(id='cytoscape-tapNodeData-json', style=styles['pre']),
     html.Div(className='one column', children=[
         dcc.Tabs(id='tabs-image-export', children=[
-            dcc.Tab(label='', value='jpg') 
-        ],style={'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-        html.Div(children='Download OGG Topology Diagram:', style={
-        'textAlign': 'left','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
-        html.Button("Save as jpg", id="btn-get-jpg",style={
-        'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
+            dcc.Tab(label='', value='jpg',style=tab_selected_style)
+        ]),
+        html.Label(children='Download Topology Diagram:',style={
+        'textAlign': 'center','font-family':'Arial','width':'250%','backgroundColor': colors['background'],'color': colors['text']}),
+        html.Button("Save as jpg", id="btn-get-jpg"),
     ])
 ])
 
