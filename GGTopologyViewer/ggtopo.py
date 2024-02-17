@@ -9,7 +9,7 @@ import io
 import os
 
 ifilename = input('Enter a file name: ')
-print (ifilename)
+#print (ifilename)
 firstDeploymentName = "OCIGGOracleDeployment"
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -235,7 +235,7 @@ app.layout = html.Div([
 @callback(Output('cytoscape-tapNodeData-json', 'children'),Input('cytoscape-image-export', 'tapNodeData'))
 def displayTapNodeData(data):
     if data:
-        print(infolist)
+        #print(infolist)
         filter_object = filter(lambda a: data['label'] in a, infolist)
         for attr in filter_object:
             filterattr = attr
