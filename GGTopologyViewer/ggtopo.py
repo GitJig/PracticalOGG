@@ -5,20 +5,16 @@ from dash import Dash, dcc, html, Input, Output, ctx, callback,State
 import dash_cytoscape as cyto
 import json
 import numpy as np
-import base64
 import io
 import os
+
 ifilename = input('Enter a file name: ')
 print (ifilename)
-firstDeploymentName = "JDOracleGGTest"
+firstDeploymentName = "OCIGGOracleDeployment"
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 #server = app.server
-colors = {
-    'background': '#0D0D0D',
-    'text': '#A6A6A6'
-}
 
 with open(ifilename) as jsonFile:
      data = json.load(jsonFile)
@@ -37,7 +33,6 @@ infolist = ["First Deployment is " + firstDeploymentName]
 while Nodenum < numtrees: 
     
     # Populate Variables Extract, TrailName and Replicats for each pair
-
     Extract = data["data"]["items"][Nodenum]["producer"]
     TrailName = data["data"]["items"][Nodenum]["trail-file-id"]
     TrailNum = data["data"]["items"][Nodenum]["number-of-sequences"]
@@ -80,9 +75,7 @@ while Nodenum < numtrees:
     else:
 
         # Replicats can be > 1, so loop thru the number of replicats
-
-        NumRep=0
-        
+        NumRep=0    
         while NumRep < len(Replicats):
             ProcessType="Replicat"
             nonterminal_nodeslist.append(Replicats[NumRep])          
@@ -119,6 +112,10 @@ terminal_nodes = [
     for name, url in zip(nonterminal_nodeslist,terminal_nodesiconlist)
 ]
 
+colors = {
+    'background': '#0D0D0D',
+    'text': '#A6A6A6'
+}
 # Creating styles
 stylesheetset = [
     {
@@ -197,13 +194,15 @@ styles = {
     },
         'pre': {
         'border': 'thin lightgrey solid',
-        'overflowX': 'auto'
-    },
+        'overflowX': 'auto',
+        'font-family': "Arial",
+        'font-size': '20px'
+    }
 }
 
 app.layout = html.Div([
     html.H1(children='OCI GoldenGate Topology viewer v0.2', style={
-        'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text']}),
+        'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text'],'padding': 0}),
     html.Div(className='nine columns', children=[
         cyto.Cytoscape( 
             id='cytoscape-image-export',
@@ -212,11 +211,12 @@ app.layout = html.Div([
             layout={'name': 'breadthfirst', 'roots': ['Deployment'],'animate': True},
             style={
                     'width': '100%', 
-                    'height': '750px',
+                    'height': '450px',
                     'float': 'left',
                     'backgroundColor': colors['background'],
                     'font-family': "Arial",
                     'color': colors['text'],
+                    'padding': 0
                    },
             stylesheet=stylesheetset
         )
