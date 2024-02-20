@@ -196,12 +196,14 @@ styles = {
         'border': 'thin lightgrey solid',
         'overflowX': 'auto',
         'font-family': "Arial",
-        'font-size': '20px'
+        'font-size': '20px',
+        'text': 'white',
+        'backgroundColor': '#4A4F59'
     }
 }
 
 app.layout = html.Div([
-    html.H1(children='OCI GoldenGate Topology viewer v0.2', style={
+    html.H1(children='OCI GoldenGate Topology Visualizer v0.2', style={
         'textAlign': 'center','font-family':'Arial','backgroundColor': colors['background'],'color': colors['text'],'padding': 0}),
     html.Div(className='nine columns', children=[
         cyto.Cytoscape( 
