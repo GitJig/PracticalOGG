@@ -138,7 +138,7 @@ SERVICEMANAGER_ARCHIVE_HOME=/dbgg/oggservdep/oggoraservdep/var/lib/archive
 #-------------------------------------------------------------------------------
 # Specify the host for the Service Manager.
 #-------------------------------------------------------------------------------
-HOST_SERVICEMANAGER=192.168.122.1
+HOST_SERVICEMANAGER=xxx.xxx.xxx.xxx
 
 #-------------------------------------------------------------------------------
 # Specify the port for the Service Manager.
