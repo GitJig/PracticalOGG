@@ -1,0 +1,498 @@
+
+################################################################################
+## Copyright(c) Oracle Corporation 2016, 2024. All rights reserved.           ##
+##                                                                            ##
+## Specify values for the variables listed below to customize your            ##
+## installation.                                                              ##
+##                                                                            ##
+## Each variable is associated with a comment. The comments can help to       ##
+## populate the variables with the appropriate values.                        ##
+##                                                                            ##
+## IMPORTANT NOTE: This file should be secured to have read permission only   ##
+## by the Oracle user or an administrator who owns this configuration to      ##
+## protect any sensitive input values.                                        ##
+##                                                                            ##
+################################################################################
+
+#-------------------------------------------------------------------------------
+# Do not change the following system generated value. 
+#-------------------------------------------------------------------------------
+oracle.install.responseFileVersion=/oracle/install/rspfmt_oggca_response_schema_v23_1_0
+
+
+################################################################################
+##                                                                            ##
+## Oracle GoldenGate deployment configuration options and details             ##
+##                                                                            ##
+################################################################################
+
+################################################################################
+##                                                                            ##
+## Instructions to fill out this response file                                ##
+## -------------------------------------------                                ##
+## Fill out section A, B, and C for general deployment information            ##
+## Additionally:                                                              ##  
+## Fill out sections D, E, F, G, H, I, and J for adding a deployment          ##
+## Fill out section K for removing a deployment                               ##
+##                                                                            ##
+################################################################################
+
+################################################################################
+#                                                                              #
+#                          SECTION A - GENERAL                                 #
+#                                                                              #
+################################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the configuration option.
+# Specify: 
+# - ADD    : for adding a new GoldenGate deployment.
+# - REMOVE : for removing an existing GoldenGate deployment. 
+#-------------------------------------------------------------------------------
+CONFIGURATION_OPTION=ADD
+
+#-------------------------------------------------------------------------------
+# Specify the name for the new or existing deployment.
+#-------------------------------------------------------------------------------
+DEPLOYMENT_NAME=oggpgdep
+
+
+################################################################################
+#                                                                              #
+#                       SECTION B - ADMINISTRATOR ACCOUNT                      #
+#                                                                              #
+# * If creating a new Service Manager, set the Administrator Account username  #
+#   and password.                                                              #
+#                                                                              #
+# * If reusing an existing Service Manager:                                    #
+#     * Enter the credentials for the Administrator Account in                 #
+#       the existing Service Manager.                                          #
+#                                                                              #
+################################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the administrator account username for the Service Manager.
+#-------------------------------------------------------------------------------
+ADMINISTRATOR_USER=oggadmin
+
+#-------------------------------------------------------------------------------
+# Specify the administrator account password for the Service Manager.
+#-------------------------------------------------------------------------------
+ADMINISTRATOR_PASSWORD=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a different administrator account username for the deployment,
+# or leave blanks to use the same Service Manager administrator credentials.
+#-------------------------------------------------------------------------------
+DEPLOYMENT_ADMINISTRATOR_USER=oggadmin
+
+#-------------------------------------------------------------------------------
+# If creating a different administrator account username for the deployment, 
+# specify the password for it.
+#-------------------------------------------------------------------------------
+DEPLOYMENT_ADMINISTRATOR_PASSWORD=
+
+
+################################################################################
+#                                                                              #
+#                       SECTION C - SERVICE MANAGER                            #
+#                                                                              #
+################################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the location for the Service Manager deployment.
+# This is only needed if the Service Manager deployment doesn't exist already.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_DEPLOYMENT_HOME=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a custom location for the Service Manager deployment ETC_HOME.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_ETC_HOME=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a custom location for the Service Manager deployment CONF_HOME.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_CONF_HOME=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a custom location for the Service Manager deployment SSL_HOME.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_SSL_HOME=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a custom location for the Service Manager deployment VAR_HOME.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_VAR_HOME=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a custom location for the Service Manager deployment DATA_HOME.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_DATA_HOME=
+
+#-------------------------------------------------------------------------------
+# Optionally, specify a custom location for the Service Manager deployment ARCHIVE_HOME.
+#-------------------------------------------------------------------------------
+SERVICEMANAGER_ARCHIVE_HOME=
+
+#-------------------------------------------------------------------------------
+# Specify the host for the Service Manager.
+#-------------------------------------------------------------------------------
+HOST_SERVICEMANAGER=127.0.0.1
+
+#-------------------------------------------------------------------------------
+# Specify the port for the Service Manager.
+#-------------------------------------------------------------------------------
+PORT_SERVICEMANAGER=7500
+
+#-------------------------------------------------------------------------------
+# Specify if SSL / TLS is or will be enabled for the deployment.
+# Specify true if SSL / TLS is or will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+SECURITY_ENABLED=false
+
+#-------------------------------------------------------------------------------
+# Specify if the deployment should enforce a strong password policy.
+# Specify true to enable strong password policy management.
+#-------------------------------------------------------------------------------
+STRONG_PWD_POLICY_ENABLED=true
+
+#-------------------------------------------------------------------------------
+# Specify if a new Service Manager should be created. 
+# Specify true if a new Service Manager should be created, false otherwise.
+#
+# This option is only needed when CONFIGURATION_OPTION is ADD.
+#-------------------------------------------------------------------------------
+CREATE_NEW_SERVICEMANAGER=false
+
+#-------------------------------------------------------------------------------
+# Specify if Service Manager should be registered as a service/daemon. This option is mutually exclusive with the 'INTEGRATE_SERVICEMANAGER_WITH_XAG' option.
+# Specify true if Service Manager should be registered as a service, false otherwise.
+#
+# This option is only needed when CONFIGURATION_OPTION is ADD.
+# This option does not apply to Windows platform.
+#-------------------------------------------------------------------------------
+REGISTER_SERVICEMANAGER_AS_A_SERVICE=false
+
+#-------------------------------------------------------------------------------
+# Specify if Remote Metrics using StatsD protocol will be enabled for the Service Manager
+# Specify true if Remote Metrics for the Service Manager will be enabled, false otherwise
+#-------------------------------------------------------------------------------
+ENABLE_SERVICE_MANAGER_REMOTE_METRICS=false
+
+#-------------------------------------------------------------------------------
+# If Remote Metrics for the Service Manager will be enabled, specify the listening host
+#-------------------------------------------------------------------------------
+SERVICE_MANAGER_REMOTE_METRICS_LISTENING_HOST=
+
+#-------------------------------------------------------------------------------
+# If Remote Metrics for the Service Manager will be enabled, specify the listening port for that server
+#-------------------------------------------------------------------------------
+SERVICE_MANAGER_REMOTE_METRICS_LISTENING_PORT=0
+
+###############################################################################
+#                                                                             #  
+#                    SECTION D - CONFIGURATION SERVICE                        #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify if the Configuration Service will be enabled.
+# Specify true if the Configuration Service will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+CONFIGURATION_SERVICE_ENABLED=false
+
+#-------------------------------------------------------------------------------
+# Specify the Configuration Service backend type.
+# Specify:
+# - FILESYSTEM
+# - ORACLE_DATABASE
+#
+# This is only needed if the Configuration Service will be enabled
+#-------------------------------------------------------------------------------
+CONFIGURATION_SERVICE_BACKEND_TYPE=FILESYSTEM
+
+#-------------------------------------------------------------------------------
+# Specify the Configuration Service connection string for the database backend
+#
+# This is only needed if:
+#     * The Configuration Service will be enabled
+#     * CONFIGURATION_SERVICE_BACKEND_TYPE is ORACLE_DATABASE
+#-------------------------------------------------------------------------------
+CONFIGURATION_SERVICE_BACKEND_CONNECTION_STRING=
+
+#-------------------------------------------------------------------------------
+# Specify the Configuration Service username for the database backend
+#
+# This is only needed if: 
+#     * The Configuration Service will be enabled
+#     * CONFIGURATION_SERVICE_BACKEND_TYPE is ORACLE_DATABASE
+#-------------------------------------------------------------------------------
+CONFIGURATION_SERVICE_BACKEND_USERNAME=
+
+#-------------------------------------------------------------------------------
+# Specify the Configuration Service password for the database backend
+#
+# This is only needed if: 
+#     * The Configuration Service will be enabled
+#     * CONFIGURATION_SERVICE_BACKEND_TYPE is ORACLE_DATABASE
+#-------------------------------------------------------------------------------
+CONFIGURATION_SERVICE_BACKEND_PASSWORD=
+
+#-------------------------------------------------------------------------------
+# Specify the Configuration Service table name for the database backend
+#
+# This is only needed if: 
+#     * The Configuration Service will be enabled
+#     * CONFIGURATION_SERVICE_BACKEND_TYPE is ORACLE_DATABASE
+#-------------------------------------------------------------------------------
+CONFIGURATION_SERVICE_BACKEND_TABLE_NAME=
+
+
+###############################################################################
+#                                                                             #
+#                       SECTION E - SOFTWARE HOME                             #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the existing OGG software home location.
+#-------------------------------------------------------------------------------
+OGG_SOFTWARE_HOME=/dbgg/oggsw/oggpgsw
+
+
+###############################################################################
+#                                                                             #
+#                       SECTION F - DEPLOYMENT DIRECTORIES                    #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the location of the new or existing OGG deployment.
+#-------------------------------------------------------------------------------
+OGG_DEPLOYMENT_HOME=/dbgg/oggdep/oggpgdep
+
+#-------------------------------------------------------------------------------
+# Specify the location for OGG_ETC_HOME.
+#-------------------------------------------------------------------------------
+OGG_ETC_HOME=/dbgg/oggdep/oggpgdep/etc
+
+#-------------------------------------------------------------------------------
+# Specify the location for OGG_CONF_HOME.
+#-------------------------------------------------------------------------------
+OGG_CONF_HOME=/dbgg/oggdep/oggpgdep/etc/conf
+
+#-------------------------------------------------------------------------------
+# Specify the location for OGG_SSL_HOME.
+#-------------------------------------------------------------------------------
+OGG_SSL_HOME=/dbgg/oggdep/oggpgdep/etc/ssl
+
+#-------------------------------------------------------------------------------
+# Specify the location for OGG_VAR_HOME.
+#-------------------------------------------------------------------------------
+OGG_VAR_HOME=/dbgg/oggdep/oggpgdep/var
+
+#-------------------------------------------------------------------------------
+# Specify the location for OGG_DATA_HOME.
+#-------------------------------------------------------------------------------
+OGG_DATA_HOME=/dbgg/oggdep/oggpgdep/var/lib/data
+
+#-------------------------------------------------------------------------------
+# Specify the location for OGG_ARCHIVE_HOME.
+#-------------------------------------------------------------------------------
+OGG_ARCHIVE_HOME=/dbgg/oggdep/oggpgdep/var/lib/archive
+
+###############################################################################
+#                                                                             #
+#                       SECTION G - ENVIRONMENT VARIABLES                     #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the value for the LD_LIBRARY_PATH environment variable.
+#-------------------------------------------------------------------------------
+ENV_LD_LIBRARY_PATH=${OGG_HOME}/datadirect/lib:${OGG_HOME}/lib
+
+#-------------------------------------------------------------------------------
+# Specify any additional environment variables to be set in the deployment.
+#-------------------------------------------------------------------------------
+ENV_POSTGRESQL_ODBCINST=${OGG_HOME}/datadirect/odbcinst.ini
+
+#-------------------------------------------------------------------------------
+# Specify any additional environment variables to be set in the deployment.
+#-------------------------------------------------------------------------------
+ENV_USER_VARS=
+
+
+###############################################################################
+#                                                                             #
+#                           SECTION H - SECURITY                              #
+#           This section is only needed if Security will be enabled           #
+#                                                                             #
+###############################################################################
+
+# ------------------------------------------------------------------------------
+# If security will be enabled, specify if TLS v1.2 will be enabled.
+# Specify true if TLS v1.2 will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+TLS_1_2_ENABLED=false
+
+# ------------------------------------------------------------------------------
+# If security will be enabled, specify if TLS v1.3 will be enabled. 
+# Specify true if TLS v1.3 will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+TLS_1_3_ENABLED=true
+
+#-------------------------------------------------------------------------------
+# Specify if FIPS will be enabled.
+#-------------------------------------------------------------------------------
+FIPS_ENABLED=false
+
+#-------------------------------------------------------------------------------
+# If SSL / TLS will be enabled, specify the server certificate 
+#-------------------------------------------------------------------------------
+SERVER_CERTIFICATE=
+
+#-------------------------------------------------------------------------------
+# If importing a server certificate, specify the private key file in PKCS#8 format
+# The private key file must not be encrypted
+#-------------------------------------------------------------------------------
+SERVER_CERTIFICATE_KEY_FILE=
+
+#-------------------------------------------------------------------------------
+# If importing a server certificate, optionally specify the CA certificates file
+#-------------------------------------------------------------------------------
+SERVER_CA_CERTIFICATES_FILE=
+
+#-------------------------------------------------------------------------------
+# If SSL / TLS will be enabled, optionally specify the client certificate.
+#-------------------------------------------------------------------------------
+CLIENT_CERTIFICATE=
+
+#-------------------------------------------------------------------------------
+# If importing a client certificate, specify the private key file in PKCS#8 format
+# The private key file must not be encrypted
+#-------------------------------------------------------------------------------
+CLIENT_CERTIFICATE_KEY_FILE=
+
+#-------------------------------------------------------------------------------
+# If importing a client certificate, optionally specify the CA certificates file
+#-------------------------------------------------------------------------------
+CLIENT_CA_CERTIFICATES_FILE=
+
+
+###############################################################################
+#                                                                             #
+#                           SECTION I - SERVICES                              #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify if the Administration server will be enabled.
+# Specify true if the Administration server will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+ADMINISTRATION_SERVER_ENABLED=true
+
+#-------------------------------------------------------------------------------
+# Required only if the Administration server will be enabled. 
+# Specify the port for Administration Server.
+#-------------------------------------------------------------------------------
+PORT_ADMINSRVR=7601
+
+#-------------------------------------------------------------------------------
+# Specify if the Distribution server will be enabled.
+# Specify true if the Distribution server will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+DISTRIBUTION_SERVER_ENABLED=true
+
+#-------------------------------------------------------------------------------
+# Required only if the Distribution server will be enabled. 
+# Specify the port for Distribution Server.
+#-------------------------------------------------------------------------------
+PORT_DISTSRVR=7602
+
+#-------------------------------------------------------------------------------
+# If security is disabled, specify if this non-secure deployment will be used
+# to send trail data to a secure deployment.
+#-------------------------------------------------------------------------------
+NON_SECURE_DISTSRVR_CONNECTS_TO_SECURE_RCVRSRVR=false
+
+#-------------------------------------------------------------------------------
+# Specify if the Receiver server will be enabled.
+# Specify true if the Receiver server will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+RECEIVER_SERVER_ENABLED=true
+
+#-------------------------------------------------------------------------------
+# Required only if the Receiver server will be enabled. 
+# Specify the port for Receiver Server.
+#-------------------------------------------------------------------------------
+PORT_RCVRSRVR=7603
+
+#-------------------------------------------------------------------------------
+# Specify if Performance Metrics server will be enabled.
+# Specify true if Performance Metrics server will be enabled, false otherwise.
+#-------------------------------------------------------------------------------
+METRICS_SERVER_ENABLED=true
+
+#-------------------------------------------------------------------------------
+# Specify the port for Performance Metrics server (TCP).
+#
+# This option is only needed when Performance Metrics server will be enabled.
+#-------------------------------------------------------------------------------
+PORT_PMSRVR=7604
+
+#-------------------------------------------------------------------------------
+# Specify the DataStore type for Performance Metrics server.
+# Valid values are: BDB, LMDB
+#
+# This option is only needed when Performance Metrics server will be enabled.
+#-------------------------------------------------------------------------------
+PMSRVR_DATASTORE_TYPE=BDB
+
+#-------------------------------------------------------------------------------
+# Specify the DataStore home location for Performance Metrics server.
+# This is optional and only takes effect when Performance Metrics server will be enabled.
+#-------------------------------------------------------------------------------
+PMSRVR_DATASTORE_HOME=
+
+#-------------------------------------------------------------------------------
+# Specify if Remote Metrics using StatsD protocol will be enabled for the Deployment
+# Specify true if Remote Metrics for the deployment will be enabled, false otherwise
+#-------------------------------------------------------------------------------
+ENABLE_DEPLOYMENT_REMOTE_METRICS=true
+
+#-------------------------------------------------------------------------------
+# If Remote Metrics for the deployment will be enabled, specify the listening host
+#-------------------------------------------------------------------------------
+DEPLOYMENT_REMOTE_METRICS_LISTENING_HOST=localhost
+
+#-------------------------------------------------------------------------------
+# If Remote Metrics for the deployment will be enabled, specify the listening port for that server
+#-------------------------------------------------------------------------------
+DEPLOYMENT_REMOTE_METRICS_LISTENING_PORT=8125
+
+
+###############################################################################
+#                                                                             #
+#                       SECTION J - REPLICATION OPTIONS                       #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify the value for the GoldenGate schema.
+#-------------------------------------------------------------------------------
+OGG_SCHEMA=ggadminpg
+
+
+###############################################################################
+#                                                                             #
+#                  SECTION K - REMOVE DEPLOYMENT OPTIONS                      #
+#                                                                             #
+###############################################################################
+
+#-------------------------------------------------------------------------------
+# Specify if the deployment files should be removed from disk.
+# Specify true if the deployment files should be removed, false otherwise.
+#-------------------------------------------------------------------------------
+REMOVE_DEPLOYMENT_FROM_DISK=
