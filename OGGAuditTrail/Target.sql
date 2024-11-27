@@ -1,7 +1,11 @@
--- This script must be executed on target DB
+-- This script must be executed on target DB as user with appropriate permissions
+-- Tested for Oracle DB 19c, adapt for other DB and version as required
+-- ORA-00942: table or view does not exist  errors are expected and can be ignored
+-- Replace xxxx with actual passwords
+-- replace dwrole with equivalent role for non Oracle autonomous databases
 drop user apphist cascade;
 -- USER SQL
-CREATE USER AppHist identified by "Welcome1234__" DEFAULT TABLESPACE DATA TEMPORARY TABLESPACE TEMP;
+CREATE USER AppHist identified by "xxxx" DEFAULT TABLESPACE DATA TEMPORARY TABLESPACE TEMP;
 -- QUOTAS
 ALTER USER AppHist QUOTA UNLIMITED ON DATA;
 alter user AppHist grant connect through admin;
