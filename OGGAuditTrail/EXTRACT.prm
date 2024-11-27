@@ -1,0 +1,16 @@
+-- OGG Source EXTRACT PARAMETER file
+EXTRACT EAPPCDC
+USERIDALIAS xxxx DOMAIN OracleGoldenGate
+EXTTRAIL ai
+TABLE APPOWNER.DEPARTMENT;
+-- https://docs.oracle.com/en/middleware/goldengate/core/23/reference/compressupdates-nocompressupdates.html
+NOCOMPRESSUPDATES
+-- https://docs.oracle.com/en/middleware/goldengate/core/23/reference/compressdeletes-nocompressdeletes.html
+NOCOMPRESSDELETES
+--https://docs.oracle.com/en/middleware/goldengate/core/23/reference/getupdatebefores-ignoreupdatebefores.html
+GETUPDATEBEFORES
+UPDATERECORDFORMAT FULL
+TABLE APPOWNER.EMP,TOKENS ( 
+DB_USER = @GETENV('TRANSACTION','USERNAME'), TRAN_DATE= @GETENV('TRANSACTION','TIMESTAMP'), 
+OPTYPE = @GETENV('GGHEADER', 'OPTYPE')
+);
